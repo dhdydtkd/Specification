@@ -11,6 +11,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
 
@@ -20,20 +21,25 @@ import javax.sql.DataSource;
 public class MyBatisConfig {
 
     @Value("${spring.datasource.mapper-locations}")
-    String mPath;
+    String mapperPath;
+    @Value("${spring.datasource.mybatis-config-locations}")
+    String mybatisConfigPath;
 
     @Bean(name = "dataSource")
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource DataSource() {
         return DataSourceBuilder.create().build();
     }
-
+    // 위 작업을 하는 이유는?..
 
     @Bean(name = "SqlSessionFactory")
     public SqlSessionFactory SqlSessionFactory(@Qualifier("dataSource") DataSource DataSource, ApplicationContext applicationContext) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(DataSource);
-        sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources(mPath));
+        // mybatis 설정 파일 세팅
+        sqlSessionFactoryBean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource(mybatisConfigPath));
+        // mapper.xml 위치 패키지 주소
+        sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources(mapperPath));
         return sqlSessionFactoryBean.getObject();
     }
 

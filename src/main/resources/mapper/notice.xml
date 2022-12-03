@@ -10,9 +10,9 @@
             n.no
             , n.title
             , n.context
-            , n.create_id AS createID
-            , DATE_FORMAT(n.create_dt, "%Y-%m-%d %H:%m:%s") AS createDT
-            , DATE_FORMAT(n.update_dt, "%Y-%m-%d %H:%m:%s") AS updateDT
+            , n.create_id
+            , DATE_FORMAT(n.create_dt, "%Y-%m-%d %H:%m:%s") AS create_dt
+            , DATE_FORMAT(n.update_dt, "%Y-%m-%d %H:%m:%s") AS update_dt
         FROM my.notice as n
         <where>
             AND n.delete_dt IS NULL
