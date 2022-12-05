@@ -10,6 +10,7 @@
                 <li><a href="/">Index</a></li>
                 <li><a href="/login">로그인 구현</a></li>
                 <li><a href="/notice">게시판 구현</a></li>
+                <li><a href="/file">첨부파일 구현</a></li>
                 <li><a href="/scheduled">스케쥴러 구현</a></li>
                 <li><a href="/map">지도 구현</a></li>
                 <li><a href="/fcm">FCM 구현</a></li>

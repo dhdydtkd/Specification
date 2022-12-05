@@ -1,8 +1,8 @@
 $.ajaxGET = function (url, data= null, successCallBack = null, failCallBack = null, type = null) {
-    var url = "http://localhost:8080/"+url;
-    var ajaxSuccessCallBack = null;
-    var ajaxFailCallBack = null;
-    var contentType = "application/json;charset=UTF-8";
+    let fullURL = "http://localhost:8080/"+url;
+    let ajaxSuccessCallBack = null;
+    let ajaxFailCallBack = null;
+    let contentType = "application/json;charset=UTF-8";
 
     if(successCallBack != null && typeof successCallBack == 'function'){
         ajaxSuccessCallBack = successCallBack;
@@ -15,7 +15,7 @@ $.ajaxGET = function (url, data= null, successCallBack = null, failCallBack = nu
     }
     $.ajax({
         type: "GET",
-        url: url,
+        url: fullURL,
         data : JSON.stringify(data),
         contentType: contentType,
         success: (data) => {
@@ -32,10 +32,10 @@ $.ajaxGET = function (url, data= null, successCallBack = null, failCallBack = nu
 }
 
 $.ajaxPOST = function (url, data= null, successCallBack = null, failCallBack = null, type = null) {
-    var url = "http://localhost:8080/"+url;
-    var ajaxSuccessCallBack = null;
-    var ajaxFailCallBack = null;
-    var contentType = "application/json;charset=UTF-8";
+    let fullURL = "http://localhost:8080/"+url;
+    let ajaxSuccessCallBack = null;
+    let ajaxFailCallBack = null;
+    let contentType = "application/json;charset=UTF-8";
 
     if(successCallBack != null && typeof successCallBack == 'function'){
         ajaxSuccessCallBack = successCallBack;
@@ -48,9 +48,39 @@ $.ajaxPOST = function (url, data= null, successCallBack = null, failCallBack = n
     }
     $.ajax({
         type: "POST",
-        url: url,
+        url: fullURL,
         data : JSON.stringify(data),
         contentType: contentType,
+        success: (data) => {
+            ajaxSuccessCallBack(data);
+        },
+        error:(data)=>{
+            ajaxFailCallBack(data);
+        }
+    });
+}
+
+$.ajaxFormPOST = function (url, data= null, successCallBack = null, failCallBack = null, type = null) {
+    let fullURL = "http://localhost:8080/"+url;
+    let header = null;
+    let ajaxSuccessCallBack = null;
+    let ajaxFailCallBack = null;
+
+    if(successCallBack != null && typeof successCallBack == 'function'){
+        ajaxSuccessCallBack = successCallBack;
+    }
+    if(failCallBack != null && typeof failCallBack == 'function'){
+        ajaxFailCallBack = failCallBack;
+    }
+
+    $.ajax({
+        type: "POST",
+        header : header,
+        url: fullURL,
+        data : data,
+        processData : false,
+        contentType: false,
+        mimeType: "multipart/form-data",
         success: (data) => {
             ajaxSuccessCallBack(data);
         },

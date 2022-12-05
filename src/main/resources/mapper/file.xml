@@ -1,0 +1,20 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.specification.dao.LoginDAO">
+
+    <insert id="uploadFile" parameterType="com.example.specification.file.dto.FileReq">
+        INSERT INTO my.file (
+                file_name
+              , file_size
+              , file_url
+              , create_dt)
+        VALUES(
+                #{fileName}
+              , #{fileSize}
+              , #{fileUrl}
+              , DATE_FORMAT(now(), "%Y-%m-%d %H:%m:%s")
+              );
+    </insert>
+</mapper>

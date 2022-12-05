@@ -48,7 +48,6 @@
 		}
 		$.ajaxPOST("notice/noticelist", pagingData, function(result){
 			if (result.state.code == "0000") {
-				console.log(result);
 				let noticeList = result.body.noticeList;
 				let searchData = result.body.searchData;
 				totalCount = searchData.totalCount;
