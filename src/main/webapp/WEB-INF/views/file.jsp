@@ -27,9 +27,26 @@
     let uploadReadyFileDataList = [];
     let uploadReadyFileList = [];
     let uploadListMax = 5;
-    let extensionList = ["pdf","zip","jpg","jpeg","png","tar","7z","txt","docx","doc","hwp","ppt","pptx"];
+    let uploadListMaxSize = 500000000;
+
+    let extensionList = ["pdf","zip","jpg","jpeg","png","tar","7z","txt","docx","doc","hwp","ppt","pptx","dmg"];
     $(() => {
+        getFileList();
+
         $("#upload").click(function() {
+            console.log(uploadReadyFileDataList);
+            if(uploadReadyFileDataList.length<1){
+                alert("업로드할 파일을 선택해주세요.");
+                return;
+            }
+            let uploadMaxSize = 0;
+            for (let i = 0; i < uploadReadyFileDataList.length; i++) { // 추가된 파일
+                uploadMaxSize+=uploadReadyFileDataList[i].size;
+            }
+            if(uploadListMaxSize<uploadMaxSize){
+                alert("업로드할 수 있는 총용량은 "+uploadListMaxSize/1000000+"MB 입니다.");
+                return;
+            }
             let formData = new FormData();
             let data = {
                 createId : "sys"
@@ -39,8 +56,10 @@
                 formData.append('files', uploadReadyFileDataList[i]);
             }
             $.ajaxFormPOST("file/fileupload", formData, function(result){
+                result = JSON.parse(result); // JSON.parse를 쓰는 이유?????......
                 if (result.state.code == "0000") {
                     uploadReadyClear();
+                    getFileList();
                 }
             });
         });
@@ -50,6 +69,50 @@
         });
 
     });
+    function getFileList(){
+        $.ajaxPOST("file/filelist", null, function(result){
+            if (result.state.code == "0000") {
+                let fileList = result.body.fileList;
+                let fileBodyHTML = "";
+                for(let i = 0 ; i<fileList.length ; i++){
+                    fileBodyHTML += "<tr>";
+                    fileBodyHTML += "<td>"+(+i+1)+"</td>";
+                    fileBodyHTML += "<td style='display: inline-block;'>" +
+                        "<a style='cursor: pointer; width: auto'" +'href="/file/filedownload?fileNo='+fileList[i].no+'"' +
+                        ">"+fileList[i].fileName+"</a></td>";
+                    if(fileList[i].fileSize/1000000>1.0){
+                        fileBodyHTML += "<td>"+(fileList[i].fileSize/1000000.0).toFixed(3)+"MB</td>";
+                    }else if(fileList[i].fileSize/1000>1.0){
+                        fileBodyHTML += "<td>"+(fileList[i].fileSize/1000.0).toFixed(3)+"KB</td>";
+                    }else{
+                        fileBodyHTML += "<td>"+fileList[i].fileSize+"byte</td>";
+                    }
+                    fileBodyHTML += "<td>"+fileList[i].createDt+"</td>";
+                    fileBodyHTML += "<td> <a type='button' name='file_delete' id='"+fileList[i].no+"' class='button small'>삭제</a></td>";
+                    fileBodyHTML += "</tr>";
+                }
+                $('#table_body').empty();
+                $('#table_body').append(fileBodyHTML);
+                $(document).off('click',"a[name='file_delete']").on("click","a[name='file_delete']",function(){
+                    $.ajaxPOST("file/filedelete", parseInt(this.id), function(result){
+                        if(result.state.desc!=null){
+                            alert(result.state.desc);
+                        }else{
+                            getFileList();
+                        }
+                    });
+                });
+                $(document).off('click',"p[name='file_download']").on("click","p[name='file_download']",function(){
+                    console.log(parseInt(this.id));
+                    $.ajaxPOST("file/filedownload", parseInt(this.id), function(result){
+                        console.log(result);
+                    });
+                });
+
+
+            }
+        });
+    }
     function uploadReadyClear() {
         uploadReadyFileList = [];
         uploadReadyFileDataList = [];
@@ -76,13 +139,13 @@
         }
         if(!extensionPassFlag){
             alert("업로드 할 수 있는 확장자 리스트를 아래와 같습니다.\n" +
-                "pdf, jpg, jpeg, png, zip, tar, 7z, txt, docx, doc, hwp, ppt, pptx");
+                "pdf, jpg, jpeg, png, zip, tar, 7z, txt, docx, doc, hwp, ppt, pptx, dmg");
             return;
         }
         for(let i = 0 ; uploadReadyFileList.length > i ; i++){
             if(selectFileData.name == uploadReadyFileList[i].name
                 &&selectFileData.lastModified == uploadReadyFileList[i].lastModified){
-                alert("이미등록된 파일입니다.");
+                alert("이미 등록된 파일입니다.");
                 return;
             }
             else if(selectFileData.name == uploadReadyFileList[i].name){
@@ -148,10 +211,9 @@
                 <table>
                     <thead>
                     <tr>
-                        <th width="7%">번호</th>
-                        <th width="15%">제목</th>
-                        <th width="33%">내용</th>
-                        <th width="15%">글쓴이</th>
+                        <th width="10%">번호</th>
+                        <th width="30%">파일이름</th>
+                        <th width="30%">파일사이즈</th>
                         <th width="20%">생성시간</th>
                         <th width="10%"></th>
                     </tr>

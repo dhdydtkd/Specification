@@ -13,4 +13,5 @@ public class FileReq {
     private String fileName;
     private long fileSize;
     private String fileUrl;
+    private String fileSaveName;
 }

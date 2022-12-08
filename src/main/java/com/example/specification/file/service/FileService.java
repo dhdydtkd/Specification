@@ -2,16 +2,19 @@ package com.example.specification.file.service;
 
 import com.example.specification.dao.FileDAO;
 import com.example.specification.file.dto.FileReq;
-import com.example.specification.login.dto.LoginReq;
-import com.example.specification.login.vo.UserVO;
+import com.example.specification.file.vo.FileVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
+import java.util.UUID;
 
 @Service("FileService")
 public class FileService {
@@ -19,33 +22,75 @@ public class FileService {
     @Autowired
     private FileDAO fileDAO;
 
+    @Value("${file.dir}")
+    private String fileDir;
+
+    public List<FileVO> getFileList(){
+        return fileDAO.getFileList();
+    }
+
+    public FileReq fileFind(Integer fileNo){
+        return fileDAO.fileFind(fileNo);
+    }
+    public Integer fileDelete(Integer fileNo){
+        FileReq fileData = fileDAO.fileFind(fileNo);
+
+        File file = new File(fileData.getFileUrl());
+        if(file.exists()) {
+            file.delete();
+        }
+        return fileDAO.fileDelete(fileNo);
+    }
+
     public Boolean uploadFile(MultipartFile[] multipartFiles) {
+
+        if (multipartFiles.length<1) {
+            return false;
+        }
+
         List<FileReq> fileList = new ArrayList<FileReq>();
         for(int i =0 ;i<multipartFiles.length;i++){
             FileReq file = new FileReq();
             file.setFileName(multipartFiles[i].getOriginalFilename());
             file.setFileSize(multipartFiles[i].getSize());
 
-            String fileUrl = "";
-            // url로 변경해야함
-            // 파일 저장은 따로
-            File tempFile = new File(multipartFiles[i].getOriginalFilename());
+            LocalDate now = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            String toDay = now.format(formatter);;
+            folderCheck(toDay);
+
+            String uuid = UUID.randomUUID().toString();
+            String extension = file.getFileName().substring(file.getFileName().lastIndexOf("."));
+            String savedName = uuid + extension;
+            file.setFileSaveName(savedName);
+            String savedPath = fileDir+toDay+File.separator+ savedName;
+
+            // 실제로 로컬에 uuid를 파일명으로 저장
             try {
-                multipartFiles[i].transferTo(tempFile);
+                multipartFiles[i].transferTo(new File(savedPath));
             } catch (IOException e) {
-                return false;
+                throw new RuntimeException(e);
             }
 
-            file.setFileUrl(fileUrl);
+            file.setFileUrl(savedPath);
             fileList.add(file);
         }
 
         Integer result = fileDAO.uploadFile(fileList);
+
         if(result>0){
             return true;
         }else{
             return false;
         }
-
     }
+
+    public void folderCheck(String toDay){
+        File uploadFoler = new File(fileDir,toDay);
+        if(uploadFoler.exists()==false){
+            uploadFoler.mkdir();
+        }
+    }
+
+
 }

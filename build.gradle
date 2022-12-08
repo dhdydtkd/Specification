@@ -44,7 +44,8 @@ dependencies {
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-
+    //파일 관련
+    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
 
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
 
