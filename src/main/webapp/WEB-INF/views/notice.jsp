@@ -125,9 +125,9 @@
 		let pageHtml = "";
 
 		if(currentPage>1){
-			pageHtml += "<li><a class='button' id='prev'> <<< </a></li>";
+			pageHtml += "<li><a class='button' id='prev'> << </a></li>";
 		}else{
-			pageHtml += "<li><a class='button disabled' id='prev'> <<< </a></li>";
+			pageHtml += "<li><a class='button disabled' id='prev'> << </a></li>";
 		}
 
 
@@ -142,9 +142,9 @@
 			}
 		}
 		if(currentPage<totalPage){
-			pageHtml += "<li><a class='button' id='next'> >>> </a></li>";
+			pageHtml += "<li><a class='button' id='next'> >> </a></li>";
 		}else{
-			pageHtml += "<li><a class='button disabled' id='next'> >>> </a></li>";
+			pageHtml += "<li><a class='button disabled' id='next'> >> </a></li>";
 		}
 
 

@@ -12,10 +12,10 @@ public class TestController {
         return "index";
     }
 
-    @RequestMapping(value = "/scheduled", method = RequestMethod.GET)
-    public String scheduled() {
-        return "scheduled";
-    }
+//    @RequestMapping(value = "/scheduled", method = RequestMethod.GET)
+//    public String scheduled() {
+//        return "scheduled";
+//    }
 
     @RequestMapping(value = "/map", method = RequestMethod.GET)
     public String map() {
