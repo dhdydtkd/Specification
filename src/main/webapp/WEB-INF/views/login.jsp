@@ -77,54 +77,54 @@
 				<strong>로그인</strong>
 			</header>
 
-				<div style="margin-top: 30px" class="content">
-					<div class="col-12 col-12-xsmall">
-						공개키 : RSAModulus<input type="text" id="RSAModulus" value="${RSAModulus}" readonly/>
-					</div>
-					<div class="col-12 col-12-xsmall">
-						공개키 : RSAExponent<input type="text" id="RSAExponent" value="${RSAExponent}" readonly/>
-					</div>
-
-					<div style="margin-top: 30px" class="col-12 col-12-xsmall">
-						ID<input style="width: 50%" type="text" id="id" value="" placeholder="예) root" />
-					</div>
-					<div class="col-12	 col-12-xsmall">
-						PASS<input style="width:50%" type="password" id="pass" value="" placeholder="예) root1234" />
-					</div>
-					<!-- Break -->
-					<div style="margin-top: 20px" class="col-12">
-						<ul class="actions">
-							<li><input id="login" type="button" value="Send Message" class="primary" /></li>
-							<li><input type="reset" value="Reset" /></li>
-						</ul>
-					</div>
-
-					<div style="display: none"  id="login_success" class="col-12 col-12-xsmall">
-						<h2>DB 비교 후 로그인 성공</h2>
-					</div>
-					<div style="display: none"  id="login_fail" class="col-12 col-12-xsmall">
-						<h2>DB 비교 후 로그인 실패</h2>
-					</div>
-
-
-					<div style="margin-top: 30px" class="col-12 col-12-xsmall">
-						공개키로 암호화된 ID<input type="text" id="RSAid" readonly/>
-					</div>
-					<div class="col-12 col-12-xsmall">
-						공개키로 암호화된 PASS<input type="text" id="RSApass" readonly/>
-					</div>
-
-					<div style="margin-top: 30px" class="col-12 col-12-xsmall">
-						비밀키로 복호화된 ID<input type="text" id="private_id" readonly/>
-					</div>
-					<div class="col-12 col-12-xsmall">
-						비밀키로 복호화된 PASS<input type="text" id="private_pass" readonly/>
-					</div>
-
-					<div style="margin-top: 30px" class="col-12 col-12-xsmall">
-						SHA-256으로 암호화된 PASS<input type="text" id="sha256_pass" readonly/>
-					</div>
+			<div style="margin-top: 30px" class="content">
+				<div class="col-12 col-12-xsmall">
+					공개키 : RSAModulus<input type="text" id="RSAModulus" value="${RSAModulus}" readonly/>
 				</div>
+				<div class="col-12 col-12-xsmall">
+					공개키 : RSAExponent<input type="text" id="RSAExponent" value="${RSAExponent}" readonly/>
+				</div>
+
+				<div style="margin-top: 30px" class="col-12 col-12-xsmall">
+					ID<input style="width: 50%" type="text" id="id" value="" placeholder="예) root" />
+				</div>
+				<div class="col-12	 col-12-xsmall">
+					PASS<input style="width:50%" type="password" id="pass" value="" placeholder="예) root1234" />
+				</div>
+				<!-- Break -->
+				<div style="margin-top: 20px" class="col-12">
+					<ul class="actions">
+						<li><input id="login" type="button" value="Login" class="primary" /></li>
+						<li><input type="reset" value="Reset" /></li>
+					</ul>
+				</div>
+
+				<div style="display: none"  id="login_success" class="col-12 col-12-xsmall">
+					<h2>DB 비교 후 로그인 성공</h2>
+				</div>
+				<div style="display: none"  id="login_fail" class="col-12 col-12-xsmall">
+					<h2>DB 비교 후 로그인 실패</h2>
+				</div>
+
+
+				<div style="margin-top: 30px" class="col-12 col-12-xsmall">
+					공개키로 암호화된 ID<input type="text" id="RSAid" readonly/>
+				</div>
+				<div class="col-12 col-12-xsmall">
+					공개키로 암호화된 PASS<input type="text" id="RSApass" readonly/>
+				</div>
+
+				<div style="margin-top: 30px" class="col-12 col-12-xsmall">
+					비밀키로 복호화된 ID<input type="text" id="private_id" readonly/>
+				</div>
+				<div class="col-12 col-12-xsmall">
+					비밀키로 복호화된 PASS<input type="text" id="private_pass" readonly/>
+				</div>
+
+				<div style="margin-top: 30px" class="col-12 col-12-xsmall">
+					SHA-256으로 암호화된 PASS<input type="text" id="sha256_pass" readonly/>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- Sidebar -->
