@@ -21,13 +21,16 @@ public class MapService {
     @Value("${kakao.rest.api.key}")
     private String KAKAO_REST_API_KEY ; // 개인키 session key
 
+    @Value("${kakao.rest.api.url}")
+    private String KAKAO_REST_API_URL ; // 개인키 session key
+
     @Autowired
     private RestInterface restService;
     public WayDirectionsResult wayDirections(LatLngReq latLngReq){
 
         WayDirectionsResult wayDirectionsResult = new WayDirectionsResult();
 
-        RestInterface apiInterface = RetrofitAPI.getApiClient().create(RestInterface.class);
+        RestInterface apiInterface = RetrofitAPI.getApiClient(KAKAO_REST_API_URL).create(RestInterface.class);
 
         String origin = latLngReq.getStartPointLat()+","+latLngReq.getStartPointLng();
         String destination = latLngReq.getEndPointLat()+","+latLngReq.getEndPointLng();

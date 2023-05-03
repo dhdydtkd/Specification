@@ -8,10 +8,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class RetrofitAPI {
-    private static final String BASE_URL = "https://apis-navi.kakaomobility.com/v1/";
+
     private static Retrofit retrofit;
 
-    public static Retrofit getApiClient() {
+    public static Retrofit getApiClient(String URL) {
 
         ObjectMapper mapper = Jackson2ObjectMapperBuilder.json()
                 .featuresToDisable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
@@ -20,7 +20,7 @@ public class RetrofitAPI {
 
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(URL)
                     // .client(client)
                     .addConverterFactory(JacksonConverterFactory.create(mapper))
                     .build();

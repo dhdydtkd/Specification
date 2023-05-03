@@ -16,8 +16,11 @@
 <script src="/js/breakpoints.min.js"></script>
 <script src="/js/util.js"></script>
 <script src="/js/main.js"></script>
-<script src="/js/sessionManagement.js"></script>
+<script src="/js/common.js"></script>
+
+<script src="/js/sessionUtil.js"></script>
 <script type="module" src="/js/fcm.js"></script>
+
 
 <body class="is-preload">
 
@@ -30,54 +33,48 @@
     function permissionChecking() {
         if (('serviceWorker' in navigator)) {
             serviceWorkerFlag = true;
-            console.log("1. ServiceWorker ok");
         }else{
-            console.log("1. ServiceWorker fail");
             return;
         }
-
-        console.log("권한 요청 중...");
         Notification.requestPermission().then((permission) => {
             if (permission === 'granted') {
                 notificationFlag = true;
-                console.log('2. 알림 권한이 허용됨');
-            }else {
-                console.log("2. 알림 권한 허용 안됨");
             }
             if ("PushManager" in window) {
                 pushManagerFlag = true;
-                console.log("3. PushManager ok");
-            }else{
-                console.log("3. PushManager fail");
             }
         });
     }
     $(() => {
+        function onMessageTest(){
+            console.log("onMessageTest");
+        }
         serviceWorkerCheck();
         $("#fcm_send").click(function() {
-
-            let title = $('#title');
-            let body = $('#body');
-            let titleText = "";
-            let bodyText = "";
-            if(title.val()==""){
-                titleText="안녕하세요, FCM Push Title 테스트입니다.";
+            let title = "";
+            let body = "";
+            if($('#title').val()==""){
+                title="안녕하세요, FCM Push Title 테스트입니다.";
             }else{
-                titleText = title.val();
+                title = $('#title').val();
             }
-            if(body.val()==""){
-                bodyText = "안녕하세요, FCM Push Body 테스트입니다.";
+            if($('#body').val()==""){
+                body = "안녕하세요, FCM Push Body 테스트입니다.";
             }else{
-                bodyText = body.val();
+                body = $('#body').val();
             }
-            console.log("FCM_CLIENT_TOKEN : "+sessionDataGet("FCM_CLIENT_TOKEN"));
-            // $.ajaxPOST("fcm/send", data, function(result){
-            //     if (result.state.code == "0000") {
-            //         if(result.body != null) {
-            //         }
-            //         return;
-            //     }
-            // });
+            let data = {
+                title: title
+                , body: body
+                , token: sessionDataGet("FCM_CLIENT_TOKEN")
+            }
+            $.ajaxPOST("fcm/send", data, function(result){
+                if (result.state.code == "0000") {
+                    if(result.body != null) {
+                    }
+                    return;
+                }
+            });
         });
 
         function serviceWorkerCheck(){

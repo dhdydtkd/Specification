@@ -2,9 +2,7 @@ package com.example.specification.config.retrofit;
 
 
 import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Query;
+import retrofit2.http.*;
 
 public interface RestInterface {
 
@@ -15,6 +13,13 @@ public interface RestInterface {
             @Header("Content-Type") String content,
             @Query("origin") String origin,
             @Query("destination") String destination
+    );
+
+    @POST("fcm")
+    Call<Object> sendFCM(
+            @Header("Authorization") String token,
+            @Header("Content-Type") String content,
+            @Field("body") String body
     );
 
 }

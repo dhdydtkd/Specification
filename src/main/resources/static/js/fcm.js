@@ -21,7 +21,7 @@ getToken(messaging, {
     .then((currentToken) => {
         if (currentToken) {
             console.log(currentToken);
-            //sessionDataAdd("FCM_CLIENT_TOKEN",currentToken);
+            sessionDataAdd("FCM_CLIENT_TOKEN",currentToken);
         } else {
             // Show permission request UI
             console.log(
@@ -39,10 +39,4 @@ onMessage(messaging, (payload) => {
     console.log("포그라운드 메시지 수신");
     console.log("Message received. ", payload);
 
-    const notificationTitle = "Background Message Title";
-    const notificationOptions = {
-        body: payload,
-        icon: "/firebase-logo.png",
-    };
-    // ...
 });
