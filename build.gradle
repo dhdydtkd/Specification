@@ -70,6 +70,8 @@ dependencies {
 
     //firebase
     implementation group: 'com.google.firebase', name: 'firebase-admin', version: '8.1.0'
+
+    implementation 'org.json:json:20200518'
 }
 
 tasks.named('test') {

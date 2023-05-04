@@ -50,7 +50,24 @@
             console.log("onMessageTest");
         }
         serviceWorkerCheck();
-        $("#fcm_send").click(function() {
+        $("#fcm_now_send").click(function() {
+            delayFCMSend(createData());
+        });
+        $("#fcm_delay_send").click(function() {
+            setTimeout(function() {
+                delayFCMSend(createData());
+            }, 3000);
+
+        });
+        function delayFCMSend(data) {
+            $.ajaxPOST("fcm/send", data, function(result){
+                if (result.state.code == "0000") {
+
+                    return;
+                }
+            });
+        }
+        function createData(){
             let title = "";
             let body = "";
             if($('#title').val()==""){
@@ -68,15 +85,8 @@
                 , body: body
                 , token: sessionDataGet("FCM_CLIENT_TOKEN")
             }
-            $.ajaxPOST("fcm/send", data, function(result){
-                if (result.state.code == "0000") {
-                    if(result.body != null) {
-                    }
-                    return;
-                }
-            });
-        });
-
+            return data;
+        }
         function serviceWorkerCheck(){
             if (!serviceWorkerFlag) {
                 $('#serviceWorkerText').append("해당 브라우저는 serviceWorker를 지원하지 않는 브라우저입니다.");
@@ -140,7 +150,10 @@
                 </div>
                 <div style="margin-top: 20px" class="col-12">
                     <ul class="actions">
-                        <li><input id="fcm_send" type="button" value="FCM send" class="primary" /></li>
+                        <li><input id="fcm_now_send" type="button" value="FCM send (포그라운드 확인용)" class="primary" /></li>
+                    </ul>
+                    <ul class="actions">
+                        <li><input id="fcm_delay_send" type="button" value="FCM send 3초 딜레이 (백그라운드 확인용)" class="primary" /></li>
                     </ul>
                 </div>
 
