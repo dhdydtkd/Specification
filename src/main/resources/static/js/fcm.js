@@ -38,5 +38,5 @@ getToken(messaging, {
 onMessage(messaging, (payload) => {
     console.log("포그라운드 메시지 수신");
     console.log("Message received. ", payload);
-
+    foreGroundOnMessage(payload.notification.title,payload.notification.body);
 });

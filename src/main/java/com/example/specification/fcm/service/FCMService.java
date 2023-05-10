@@ -18,10 +18,16 @@ public class FCMService {
                 .setTitle(noticationReq.getTitle())
                 .setBody(noticationReq.getBody())
                 .build();
+        WebpushConfig webpushConfig = WebpushConfig.builder()
+                .setFcmOptions(WebpushFcmOptions.builder()
+                    .setLink("http://localhost:8080/fcm")
+                    .build())
+                .build();
         Message message = Message.builder()
                 .putData("requestId", Integer.toString(requestId))
                 .setNotification(notification)
                 .setToken(noticationReq.getToken())
+                .setWebpushConfig(webpushConfig)
                 .build();
         String response = FirebaseMessaging.getInstance().send(message);
 

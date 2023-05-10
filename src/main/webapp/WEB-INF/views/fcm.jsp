@@ -45,10 +45,20 @@
             }
         });
     }
+    function foreGroundOnMessage(title,body){
+        // $("#foreground_title").text(title);
+        // $("#foreground_body").text(body);
+        document.getElementById("fore_ground_title").value = title;
+        document.getElementById("fore_ground_body").value = body;
+    }
+    function backGroundOnMessage(title,body){
+        // $("#foreground_title").text(title);
+        // $("#foreground_body").text(body);
+        document.getElementById("back_ground_title").value = title;
+        document.getElementById("back_ground_body").value = body;
+    }
+
     $(() => {
-        function onMessageTest(){
-            console.log("onMessageTest");
-        }
         serviceWorkerCheck();
         $("#fcm_now_send").click(function() {
             delayFCMSend(createData());
@@ -156,7 +166,23 @@
                         <li><input id="fcm_delay_send" type="button" value="FCM send 3초 딜레이 (백그라운드 확인용)" class="primary" /></li>
                     </ul>
                 </div>
+                <div style="margin-top: 30px" class="col-12 col-12-xsmall">
+                    <b>포그라운드에서 온 메세지</b>
+                    <div class="col-12 col-12-xsmall">
+                        Title
+                        <input style="width: 500px" type="text" id="fore_ground_title" readonly/>
+                    </div>
+                    <div class="col-12 col-12-xsmall">
+                        Body
+                        <input style="width: 500px" type="text" id="fore_ground_body" readonly/>
+                    </div>
+                </div>
 
+                <div style="margin-top: 30px" class="col-12 col-12-xsmall">
+                    <b>백그라운드체크는 백그라운드 확인용 버튼을 누루고 다른 탭의 인터넷 화면이나 다른 프로그램을 ForeGround 하시고 알람을 클릭하시면 해당 탭으로 이동됍니다.</b>
+                </div>
+                <div style="margin-top: 50px" class="col-12 col-12-xsmall">
+                </div>
             </div>
         </div>
     </div>
