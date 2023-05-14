@@ -6,7 +6,6 @@ plugins {
 }
 bootWar {
     archiveBaseName = "specification_bootWar"
-    archiveFileName = "specification_bootWar001.war"
     archiveVersion = "0.0.1"
 }
 group = 'com.example'

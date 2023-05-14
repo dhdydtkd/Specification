@@ -25,6 +25,7 @@
 <body class="is-preload">
 <script>
 	$(() => {
+
 		$("#login").click(function() {
 			let id = $('#id');
 			let pass = $('#pass');
@@ -100,10 +101,10 @@
 				</div>
 
 				<div style="display: none"  id="login_success" class="col-12 col-12-xsmall">
-					<h2>DB 비교 후 로그인 성공</h2>
+					<h2 style="color: #4444ff">DB 비교 후 로그인 성공</h2>
 				</div>
 				<div style="display: none"  id="login_fail" class="col-12 col-12-xsmall">
-					<h2>DB 비교 후 로그인 실패</h2>
+					<h2 style="color: #e72828">DB 비교 후 로그인 실패</h2>
 				</div>
 
 

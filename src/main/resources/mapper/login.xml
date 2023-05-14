@@ -10,7 +10,7 @@
             u.id
             , u.pass
             , u.name
-        FROM my.user as u
+        FROM specification_db.user as u
         <where>
             u.id = #{id}
             AND u.pass = #{pass}
@@ -18,7 +18,7 @@
     </select>
 
     <update id="updateUserLogin" parameterType="com.example.specification.login.vo.UserVO">
-        UPDATE my.user as u
+        UPDATE specification_db.user as u
             SET u.last_login = DATE_FORMAT(now(), "%Y-%m-%d %H:%m:%s")
         WHERE u.id = #{id}
     </update>
